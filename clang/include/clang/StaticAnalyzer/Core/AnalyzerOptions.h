@@ -196,9 +196,13 @@ public:
   AnalysisPurgeMode AnalysisPurgeOpt = PurgeStmt;
 
   std::string AnalyzeSpecificFunction;
+  std::string AnalyzeSpecificFunctionFile;
 
   /// File path to which the exploded graph should be dumped.
   std::string DumpExplodedGraphTo;
+
+  /// File path to which the AnalysisConsumer::FunctionSummaries should be dumped.
+  std::string DumpFSTo;
 
   /// Store full compiler invocation for reproducible instructions in the
   /// generated report.

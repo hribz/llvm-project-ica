@@ -15,6 +15,8 @@
 
 #include "clang/AST/Decl.h"
 #include "clang/Basic/LLVM.h"
+#include "clang/Index/USRGeneration.h"
+#include "clang/Analysis/AnalysisDeclContext.h"
 #include "llvm/ADT/DenseMap.h"
 #include "llvm/ADT/DenseSet.h"
 #include "llvm/ADT/SmallBitVector.h"
@@ -133,6 +135,7 @@ public:
 
   unsigned getTotalNumBasicBlocks();
   unsigned getTotalNumVisitedBasicBlocks();
+  void dumpFunctionSummaries(StringRef);
 };
 
 } // namespace ento

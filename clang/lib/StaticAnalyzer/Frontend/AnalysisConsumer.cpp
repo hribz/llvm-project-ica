@@ -41,8 +41,10 @@
 #include "llvm/Support/Program.h"
 #include "llvm/Support/Timer.h"
 #include "llvm/Support/raw_ostream.h"
+#include <fstream>
 #include <memory>
 #include <queue>
+#include <unordered_set>
 #include <utility>
 
 using namespace clang;
@@ -120,6 +122,9 @@ public:
   /// translation unit.
   FunctionSummariesTy FunctionSummaries;
 
+  /// The functions need to analyze.
+  std::unordered_set<std::string> AnalyzeSpecificFunctionsSet;
+
   AnalysisConsumer(CompilerInstance &CI, const std::string &outdir,
                    AnalyzerOptions &opts, ArrayRef<std::string> plugins,
                    CodeInjector *injector)
@@ -147,6 +152,19 @@ public:
 
     if (Opts.ShouldDisplayMacroExpansions)
       MacroExpansions.registerForPreprocessor(PP);
+
+    if (!Opts.AnalyzeSpecificFunctionFile.empty()) {
+      std::ifstream f(Opts.AnalyzeSpecificFunctionFile);
+      if (!f.is_open()) {
+        llvm::errs() << "Failed to open file: " << Opts.AnalyzeSpecificFunctionFile << "\n";
+      } else {
+        std::string line;
+        while (std::getline(f, line)) {
+          AnalyzeSpecificFunctionsSet.insert(line);
+        }
+        f.close();
+      }
+    }
   }
 
   ~AnalysisConsumer() override {
@@ -620,6 +638,10 @@ void AnalysisConsumer::HandleTranslationUnit(ASTContext &C) {
     PercentReachableBlocks =
         (FunctionSummaries.getTotalNumVisitedBasicBlocks() * 100) /
         NumBlocksInAnalyzedFunctions;
+
+  // Dump the function summaries.
+  if (!Mgr->options.DumpFSTo.empty())
+    FunctionSummaries.dumpFunctionSummaries(Mgr->options.DumpFSTo);
 }
 
 AnalysisConsumer::AnalysisMode
@@ -627,6 +649,11 @@ AnalysisConsumer::getModeForDecl(Decl *D, AnalysisMode Mode) {
   if (!Opts.AnalyzeSpecificFunction.empty() &&
       AnalysisDeclContext::getFunctionName(D) != Opts.AnalyzeSpecificFunction)
     return AM_None;
+
+  if (!Opts.AnalyzeSpecificFunctionFile.empty() &&
+      !AnalyzeSpecificFunctionsSet.count(AnalysisDeclContext::getFunctionName(D))) {
+    return AM_None;
+  }
 
   // Unless -analyze-all is specified, treat decls differently depending on
   // where they came from:
