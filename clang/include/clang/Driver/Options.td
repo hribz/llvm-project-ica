@@ -6931,12 +6931,6 @@ def analyzer_dump_fsum : Separate<["-"], "analyzer-dump-fsum">,
   HelpText<"Dump AnalysisConsumer::FunctionSummaries to the specified file">,
   MarshallingInfoString<AnalyzerOpts<"DumpFSTo">>;
 def analyzer_dump_fsm_EQ : Joined<["-"], "analyzer-dump-fsum=">, Alias<analyzer_dump_fsum>;
-def analyzer_diff_file : Separate<["-"], "analyzer-diff-file">, HelpText<"Specify diff info files">,
-  MarshallingInfoString<AnalyzerOpts<"DiffFile">>;
-def analyzer_diff_file_EQ : Joined<["-"], "analyzer-diff-file=">, Alias<analyzer_diff_file>;
-def analyzer_fs_file : Separate<["-"], "analyzer-fs-file">, HelpText<"Baseline analysis function summaries file.">,
-  MarshallingInfoString<AnalyzerOpts<"FSFile">>;
-def analyzer_fs_file_EQ : Joined<["-"], "analyzer-fs-file=">, Alias<analyzer_fs_file>;
 
 def analyzer_inline_max_stack_depth : Separate<["-"], "analyzer-inline-max-stack-depth">,
   HelpText<"Bound on stack depth while inlining (4 by default)">,

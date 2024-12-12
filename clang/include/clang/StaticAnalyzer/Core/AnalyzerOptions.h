@@ -196,18 +196,14 @@ public:
   AnalysisPurgeMode AnalysisPurgeOpt = PurgeStmt;
 
   std::string AnalyzeSpecificFunction;
+  /// Just analyze functions in this file.
+  std::string AnalyzeSpecificFunctionFile;
 
   /// File path to which the exploded graph should be dumped.
   std::string DumpExplodedGraphTo;
 
-  /// Just analyze functions in this file.
-  std::string AnalyzeSpecificFunctionFile;
   /// File path to which the AnalysisConsumer::FunctionSummaries should be dumped.
   std::string DumpFSTo;
-  /// File stores diff line info.
-  std::string DiffFile;
-  /// File stores baseline analysis function summaries.
-  std::string FSFile;
 
   /// Store full compiler invocation for reproducible instructions in the
   /// generated report.
