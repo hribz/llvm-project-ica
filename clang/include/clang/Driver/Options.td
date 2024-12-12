@@ -6912,10 +6912,6 @@ def analyze_function : Separate<["-"], "analyze-function">,
   HelpText<"Run analysis on specific function (for C++ include parameters in name)">,
   MarshallingInfoString<AnalyzerOpts<"AnalyzeSpecificFunction">>;
 def analyze_function_EQ : Joined<["-"], "analyze-function=">, Alias<analyze_function>;
-def analyze_function_file : Separate<["-"], "analyze-function-file">,
-  HelpText<"Run analysis on specific functions in file (for C++ include parameters in name)">,
-  MarshallingInfoString<AnalyzerOpts<"AnalyzeSpecificFunctionFile">>;
-def analyze_function_file_EQ : Joined<["-"], "analyze-function-file=">, Alias<analyze_function_file>;
 def trim_egraph : Flag<["-"], "trim-egraph">,
   HelpText<"Only show error-related paths in the analysis graph">,
   MarshallingInfoFlag<AnalyzerOpts<"TrimGraph">>;
@@ -6926,10 +6922,21 @@ def analyzer_dump_egraph : Separate<["-"], "analyzer-dump-egraph">,
   HelpText<"Dump exploded graph to the specified file">,
   MarshallingInfoString<AnalyzerOpts<"DumpExplodedGraphTo">>;
 def analyzer_dump_egraph_EQ : Joined<["-"], "analyzer-dump-egraph=">, Alias<analyzer_dump_egraph>;
+
+def analyze_function_file : Separate<["-"], "analyze-function-file">,
+  HelpText<"Run analysis on specific functions in file (for C++ include parameters in name)">,
+  MarshallingInfoString<AnalyzerOpts<"AnalyzeSpecificFunctionFile">>;
+def analyze_function_file_EQ : Joined<["-"], "analyze-function-file=">, Alias<analyze_function_file>;
 def analyzer_dump_fsum : Separate<["-"], "analyzer-dump-fsum">,
   HelpText<"Dump AnalysisConsumer::FunctionSummaries to the specified file">,
   MarshallingInfoString<AnalyzerOpts<"DumpFSTo">>;
 def analyzer_dump_fsm_EQ : Joined<["-"], "analyzer-dump-fsum=">, Alias<analyzer_dump_fsum>;
+def analyzer_diff_file : Separate<["-"], "analyzer-diff-file">, HelpText<"Specify diff info files">,
+  MarshallingInfoString<AnalyzerOpts<"DiffFile">>;
+def analyzer_diff_file_EQ : Joined<["-"], "analyzer-diff-file=">, Alias<analyzer_diff_file>;
+def analyzer_fs_file : Separate<["-"], "analyzer-fs-file">, HelpText<"Baseline analysis function summaries file.">,
+  MarshallingInfoString<AnalyzerOpts<"FSFile">>;
+def analyzer_fs_file_EQ : Joined<["-"], "analyzer-fs-file=">, Alias<analyzer_fs_file>;
 
 def analyzer_inline_max_stack_depth : Separate<["-"], "analyzer-inline-max-stack-depth">,
   HelpText<"Bound on stack depth while inlining (4 by default)">,
